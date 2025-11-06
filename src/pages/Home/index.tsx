@@ -1,14 +1,14 @@
-import BottomSheet from "@/components/ui/BottomSheet";
+import ExpenseAction from "./ExpenseAction";
+import ExpenseToolbar from "./ExpenseToolbar";
+import "./Home.scss";
+import ExpenseList from "./ExpenseList";
 
 export default function Home() {
   return (
-      <BottomSheet
-        title="Add Category"
-        triggerText="Add Category"
-      >
-        <div className="flex flex-col gap-4">
-         
-        </div>
-      </BottomSheet>
-  )
+    <div className="home-container">
+      <ExpenseAction />
+      <ExpenseToolbar />
+      <ExpenseList />
+    </div>
+  );
 }
