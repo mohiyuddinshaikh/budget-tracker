@@ -1,6 +1,6 @@
 import CommonTable from "@/components/ui/Table/index";
 import type { Expense } from "@/types/expense";
-import expenses from "@/types/expense";
+import { expenses } from "@/constants/data";
 
 export default function ExpenseList() {
   const columns = [

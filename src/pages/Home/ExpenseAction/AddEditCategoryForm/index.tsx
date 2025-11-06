@@ -1,4 +1,3 @@
-"use client";
 
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
@@ -10,17 +9,14 @@ export default function AddEditCategoryForm() {
   const [categoryName, setCategoryName] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setCategoryName("");
+  const handleSubmit = async () => {
+    console.log("categoryNAme", categoryName);
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 border rounded-lg shadow-sm bg-white space-y-6">
-      <h2 className="text-lg font-semibold">Category</h2>
-
+    <div className="space-y-6">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-1">
+        <div className="space-y-2">
           <Label htmlFor="category">Category Name</Label>
           <Input
             id="category"
@@ -28,16 +24,17 @@ export default function AddEditCategoryForm() {
             placeholder="Enter category name"
             value={categoryName}
             onChange={(e) => setCategoryName(e.target.value)}
+            required
           />
         </div>
-
-        <div className="flex justify-end">
-          <Button type="submit">Save</Button>
+        <div className="flex justify-end gap-2 pt-2">
+          <Button type="submit" disabled={!categoryName.trim()}>
+            Save Category
+          </Button>
         </div>
       </form>
-
-      {/* Bottom "View All" button */}
-      <div className="flex justify-center pt-4 border-t">
+      {/*  "View All" button */}
+      <div className="flex justify-end pt-4 border-t">
         <Button variant="outline" onClick={() => navigate("/categories")}>
           View All Categories
         </Button>

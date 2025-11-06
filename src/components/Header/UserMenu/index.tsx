@@ -8,8 +8,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export default function UserMenu() {
+  const navigate = useNavigate();
   return (
     <div className="">
       <DropdownMenu>
@@ -23,7 +25,7 @@ export default function UserMenu() {
           <DropdownMenuLabel>Rupali Vide</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <Button variant="outline" size="sm" className="w-full">
+            <Button variant="outline" size="sm" className="w-full" onClick={() => navigate("/")}>
               Logout
             </Button>
           </DropdownMenuItem>
