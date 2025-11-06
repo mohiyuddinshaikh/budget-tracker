@@ -25,7 +25,7 @@ export default function Header() {
             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
             <AvatarFallback>RV</AvatarFallback>
           </Avatar>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={() => navigate("/")}>
             Logout
           </Button>
         </div>
