@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
-import { months } from "@/types/expense";
+import { months } from "@/constants/data";
 
 export default function MonthNavigator() {
   const currentMonthIndex = new Date().getMonth();
