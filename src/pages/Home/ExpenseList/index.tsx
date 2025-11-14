@@ -1,14 +1,16 @@
 import { useState } from "react";
 import CommonTable from "@/components/ui/Table/index";
 import BottomSheet from "@/components/ui/BottomSheet";
-import { Button } from "@/components/ui/button";
 import AddEditExpenseForm from "../ExpenseAction/AddEditExpenseForm";
 import type { Expense } from "@/types/expense";
 import { expenses } from "@/constants/data";
+import ConfirmDialog from "@/components/ConfirmDialog";
 
 export default function ExpenseList() {
   const [isExpenseSheetOpen, setIsExpenseSheetOpen] = useState(false);
   const [currentExpense, setCurrentExpense] = useState<Expense | null>(null);
+  const [open, setOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState<Expense | null>(null);
 
   const columns = [
     { key: "category", label: "Category" },
@@ -24,12 +26,18 @@ export default function ExpenseList() {
   };
 
   const handleDelete = (row: Expense) => {
+    setSelectedRow(row);
+    setOpen(true);
     console.log("Delete row:", row);
   };
 
   const handleCloseSheet = () => {
     setIsExpenseSheetOpen(false);
     setCurrentExpense(null);
+  };
+
+  const confirmEdit = () => {
+    console.log("Edit Confirmed:", selectedRow);
   };
 
   return (
@@ -65,6 +73,15 @@ export default function ExpenseList() {
           onClose={handleCloseSheet}
         />
       </BottomSheet>
+      <ConfirmDialog
+        open={open}
+        title="Delete Expense?"
+        description="Are you sure you want to delete this record?"
+        confirmText="Yes, Edit"
+        cancelText="No"
+        onConfirm={confirmEdit}
+        onOpenChange={setOpen}
+      />
     </div>
   );
 }
