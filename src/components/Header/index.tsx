@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 export default function Header() {
   const navigate = useNavigate();
   return (
-    <header className="flex items-center justify-between px-6 py-3 bg-background border-b shadow-sm">
+    <header className="fixed top-0 left-0 right-0 flex items-center justify-between px-6 py-3 bg-background border-b shadow-sm w-full z-50">
       <div className="text-xl font-bold tracking-tight cursor-pointer">
         <img
           src={logo}
