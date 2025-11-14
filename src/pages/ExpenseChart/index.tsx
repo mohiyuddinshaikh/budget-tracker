@@ -1,7 +1,8 @@
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { categories, expenses } from "@/constants/data";
-import CommonTable from "@/components/ui/Table";
+import CommonTable from "@/components/ui/Table/index";
+
 
 type TooltipContext = {
   label: string;

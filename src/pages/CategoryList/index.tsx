@@ -28,6 +28,7 @@ export default function CategoriesList() {
         columns={columns}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        isAction={true}
       />
     </div>
   );
