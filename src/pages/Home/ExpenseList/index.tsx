@@ -1,8 +1,13 @@
 import CommonTable from "@/components/ui/Table/index";
 import type { Expense } from "@/types/expense";
 import { expenses } from "@/constants/data";
+import ConfirmDialog from "@/components/ConfirmDialog";
+import { useState } from "react";
 
 export default function ExpenseList() {
+    const [open, setOpen] = useState(false);
+    const [selectedRow, setSelectedRow] = useState<Expense | null>(null);
+
   const columns = [
     { key: "category", label: "Category" },
     { key: "id", label: "ID" },
@@ -11,13 +16,21 @@ export default function ExpenseList() {
     { key: "note", label: "Note" },
   ] as const;
 
-  const handleEdit = (row: Expense) => {
+   const handleEdit = (row: Expense) => {
     console.log("row", row);
-  };
+      };
+
 
   const handleDelete = (row: Expense) => {
     console.log("row", row);
+     setSelectedRow(row);
+    setOpen(true);
   };
+
+   const confirmEdit = () => {
+    console.log("Edit Confirmed:", selectedRow);
+  };
+
 
   return (
     <div className="pt-10">
@@ -29,6 +42,16 @@ export default function ExpenseList() {
         columns={columns}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        isAction = {true}
+      />
+        <ConfirmDialog
+        open={open}
+        title="Delete Expense?"
+        description="Are you sure you want to delete this recode?"
+        confirmText="Yes, Edit"
+        cancelText="No"
+        onConfirm={confirmEdit}
+        onOpenChange={setOpen}
       />
     </div>
   );
