@@ -19,8 +19,8 @@ export default function CategoriesList() {
   };
 
   return (
-    <div className="p-8">
-      <h2 className="text-lg font-semibold hidden mb-3 md:block">
+    <div className=" m-5">
+      <h2 className="text-lg font-semibold mb-3">
         Category List
       </h2>
       <CommonTable

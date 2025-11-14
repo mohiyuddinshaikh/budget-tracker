@@ -20,8 +20,8 @@ export default function ExpenseList() {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-lg font-semibold hidden mb-3 md:block">
+    <div className="pt-10">
+      <h2 className="text-lg font-semibold  mb-3">
         Expense List
       </h2>
       <CommonTable
