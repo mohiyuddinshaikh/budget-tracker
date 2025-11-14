@@ -1,4 +1,4 @@
-import CommonTable from "@/components/ui/Table";
+import CommonTable from "@/components/ui/Table/index";
 import { categories } from "@/constants/data";
 import type { Category } from "@/types/category";
 
