@@ -70,9 +70,9 @@ export default function ExpenseChart() {
           label: function (context: TooltipContext) {
             const label = context.label || "";
             const value = context.raw || 0;
-            // const total = context.dataset.data.reduce((a, b) => a + b, 0);
-            // const percentage = Math.round((value / total) * 100);
-            return `${label}: $${value}`;
+            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+            const percentage = Math.round((value / total) * 100);
+            return `${label}: ${percentage} %`;
           },
         },
       },

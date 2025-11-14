@@ -15,14 +15,28 @@ import {
 
 import { categories } from "@/constants/data";
 
+interface AddEditExpenseFormProps {
+  initialData?: {
+    id?: number;
+    category_id?: string;
+    category: string;
+    amount: string | number;
+    date: string;
+    note: string;
+  } | null;
+  onClose: () => void;
+}
 
-
-export default function AddEditExpenseForm() {
+export default function AddEditExpenseForm({
+  initialData,
+  onClose,
+}: AddEditExpenseFormProps) {
+  console.log("initialData exp foo", initialData);
   const [formData, setFormData] = useState({
-    category: "",
-    amount: "",
-    date: "",
-    note: "",
+    category: initialData?.category_id || "",
+    amount: initialData?.amount.toString() || "",
+    date: initialData?.date || "",
+    note: initialData?.note || "",
   });
 
   const handleChange = (
@@ -36,9 +50,10 @@ export default function AddEditExpenseForm() {
     setFormData((prev) => ({ ...prev, category: value }));
   };
 
-  const handleSubmit = () => {
-    console.log("formdata foo", formData);
-    setFormData({ category: "", amount: "", date: "", note: "" });
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+    onClose();
   };
 
   return (
@@ -51,7 +66,10 @@ export default function AddEditExpenseForm() {
           </SelectTrigger>
           <SelectContent>
             {categories.map((category) => (
-              <SelectItem key={category.id} value={category.id}>
+              <SelectItem
+                key={category.category_id}
+                value={category.category_id}
+              >
                 {category.name}
               </SelectItem>
             ))}
