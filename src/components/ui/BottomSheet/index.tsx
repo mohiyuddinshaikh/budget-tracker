@@ -17,6 +17,7 @@ interface BottomSheetProps {
   triggerText: string;
   triggerIcon?: React.ReactNode;
   children: React.ReactNode;
+  isShow?: boolean;
 }
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
@@ -26,20 +27,27 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   triggerText,
   triggerIcon,
   children,
+  isShow = true,
 }) => {
-    const isMobile = useMediaQuery({ query: `(max-width: ${mobileWidth})` });
+  const isMobile = useMediaQuery({ query: `(max-width: ${mobileWidth})` });
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetTrigger asChild>
-        <Button className="flex items-center gap-2 ">
-          {triggerIcon}
-          <span>{triggerText}</span>
-        </Button>
-      </SheetTrigger>
-      <SheetContent side={isMobile ? "bottom" : "right"}
+      {isShow && ( 
+        <SheetTrigger asChild>
+          <Button className="flex items-center gap-2">
+            {triggerIcon}
+            <span>{triggerText}</span>
+          </Button>
+        </SheetTrigger>
+      )}
+
+      <SheetContent
+        side={isMobile ? "bottom" : "right"}
         className={`p-4 transition-all duration-300 ${
           isMobile ? "h-[70vh] rounded-t-2xl" : "w-[400px]"
-        }`}>
+        }`}
+      >
         <SheetHeader>
           {title && <SheetTitle className="text-left">{title}</SheetTitle>}
         </SheetHeader>
