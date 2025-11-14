@@ -7,6 +7,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useMediaQuery } from "react-responsive";
+import { mobileWidth } from "@/constants/mediaQuery";
 
 interface BottomSheetProps {
   open?: boolean;
@@ -25,6 +27,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   triggerIcon,
   children,
 }) => {
+    const isMobile = useMediaQuery({ query: `(max-width: ${mobileWidth})` });
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetTrigger asChild>
@@ -33,7 +36,10 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
           <span>{triggerText}</span>
         </Button>
       </SheetTrigger>
-      <SheetContent className="p-4">
+      <SheetContent side={isMobile ? "bottom" : "right"}
+        className={`p-4 transition-all duration-300 ${
+          isMobile ? "h-[70vh] rounded-t-2xl" : "w-[400px]"
+        }`}>
         <SheetHeader>
           {title && <SheetTitle className="text-left">{title}</SheetTitle>}
         </SheetHeader>
