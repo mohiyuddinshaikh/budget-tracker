@@ -7,7 +7,7 @@ export default function ExpenseSummary() {
 
   return (
     <div>
-      <Card className="bg-blue-50 border-blue-200 m-20">
+      <Card className="bg-blue-50 border-blue-200 m-5">
         <CardHeader>
           <CardTitle>Summary</CardTitle>
         </CardHeader>
