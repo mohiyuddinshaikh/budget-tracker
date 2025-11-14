@@ -1,16 +1,34 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
+import type { Category } from "@/types/category";
 
-export default function AddEditCategoryForm() {
+interface AddEditCategoryFormProps {
+  initialData?: Category | null;
+  onClose: () => void;
+}
+
+export default function AddEditCategoryForm({
+  initialData,
+  onClose,
+}: AddEditCategoryFormProps) {
   const [categoryName, setCategoryName] = useState("");
   const navigate = useNavigate();
+  console.log(" foos", initialData);
 
-  const handleSubmit = async () => {
-    console.log("categoryNAme", categoryName);
+  useEffect(() => {
+    if (initialData) {
+      console.log("initial 1", initialData);
+      setCategoryName(initialData.name || "");
+    }
+  }, [initialData]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("categoryName", categoryName);
+    onClose();
   };
 
   return (
