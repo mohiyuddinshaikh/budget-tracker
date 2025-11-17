@@ -84,7 +84,7 @@ export default function ExpenseChart() {
   };
 
   const columns = [
-    { key: "id", label: "ID" },
+    { key: "category_id", label: "ID" },
     { key: "name", label: "Name" },
     { key: "amount", label: "Amount" },
   ] as const;
