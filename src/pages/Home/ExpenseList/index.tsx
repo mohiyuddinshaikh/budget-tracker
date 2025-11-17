@@ -13,8 +13,8 @@ export default function ExpenseList() {
   const [selectedRow, setSelectedRow] = useState<Expense | null>(null);
 
   const columns = [
-    { key: "category", label: "Category" },
     { key: "id", label: "ID" },
+    { key: "category", label: "Category" },
     { key: "amount", label: "Amount (₹)", align: "right" },
     { key: "date", label: "Date" },
     { key: "note", label: "Note" },
@@ -77,7 +77,7 @@ export default function ExpenseList() {
         open={open}
         title="Delete Expense?"
         description="Are you sure you want to delete this record?"
-        confirmText="Yes, Edit"
+        confirmText="Delete"
         cancelText="No"
         onConfirm={confirmEdit}
         onOpenChange={setOpen}
