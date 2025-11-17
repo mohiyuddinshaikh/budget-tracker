@@ -78,7 +78,7 @@ export default function CategoriesList() {
         open={open}
         title="Delete Category?"
         description="Are you sure you want to delete this record?"
-        confirmText="Yes, Edit"
+        confirmText="Delete"
         cancelText="No"
         onConfirm={confirmEdit}
         onOpenChange={setOpen}
