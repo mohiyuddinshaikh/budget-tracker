@@ -22,8 +22,9 @@ export default function ExpenseAction() {
           triggerText="Add Expense"
           triggerIcon={<PlusCircle className="h-4 w-4" />}
         >
-          <AddEditExpenseForm />
-        </BottomSheet>
+          <AddEditExpenseForm   onClose={() => setOpenSheet(null)}
+ />
+        </BottomSheet> 
 
         {/* Add Category */}
         <BottomSheet
@@ -33,7 +34,8 @@ export default function ExpenseAction() {
           triggerText="Add Category"
           triggerIcon={<FolderPlus className="h-4 w-4" />}
         >
-          <AddEditCategoryForm />
+          <AddEditCategoryForm   onClose={() => setOpenSheet(null)}
+ />
         </BottomSheet>
       </div>
     </div>
