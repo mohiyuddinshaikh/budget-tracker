@@ -3,8 +3,9 @@ import CommonTable from "@/components/ui/Table/index";
 import BottomSheet from "@/components/ui/BottomSheet";
 import AddEditExpenseForm from "../ExpenseAction/AddEditExpenseForm";
 import type { Expense } from "@/types/expense";
-import { expenses } from "@/constants/data";
+// import { expenses } from "@/constants/data";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import { useExpenseStore } from "@/store/expenseStore";
 
 export default function ExpenseList() {
   const [isExpenseSheetOpen, setIsExpenseSheetOpen] = useState(false);
@@ -12,9 +13,12 @@ export default function ExpenseList() {
   const [open, setOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState<Expense | null>(null);
 
+  const {expenses, deleteExpense}  = useExpenseStore();
+
   const columns = [
-    { key: "category", label: "Category" },
     { key: "id", label: "ID" },
+    { key: "category", label: "Category" },
+    { key: "category_id", label: "Category Id" },
     { key: "amount", label: "Amount (₹)", align: "right" },
     { key: "date", label: "Date" },
     { key: "note", label: "Note" },
@@ -29,6 +33,7 @@ export default function ExpenseList() {
     setSelectedRow(row);
     setOpen(true);
     console.log("Delete row:", row);
+
   };
 
   const handleCloseSheet = () => {
@@ -38,6 +43,7 @@ export default function ExpenseList() {
 
   const confirmEdit = () => {
     console.log("Edit Confirmed:", selectedRow);
+    deleteExpense(selectedRow?.id)
   };
 
   return (
@@ -77,7 +83,7 @@ export default function ExpenseList() {
         open={open}
         title="Delete Expense?"
         description="Are you sure you want to delete this record?"
-        confirmText="Yes, Edit"
+        confirmText="Delete"
         cancelText="No"
         onConfirm={confirmEdit}
         onOpenChange={setOpen}
