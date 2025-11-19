@@ -9,6 +9,9 @@ export default function ExpenseAction() {
     null
   );
 
+  const handleCloseSheet = () => {
+    setOpenSheet(null);
+  };
   return (
     <div className="flex items-center justify-between px-3 py-3 bg-background border-b shadow-sm">
       <h2 className="text-lg font-semibold hidden md:block">Expense Actions</h2>
@@ -22,7 +25,7 @@ export default function ExpenseAction() {
           triggerText="Add Expense"
           triggerIcon={<PlusCircle className="h-4 w-4" />}
         >
-          <AddEditExpenseForm />
+          <AddEditExpenseForm onClose={handleCloseSheet} />
         </BottomSheet>
 
         {/* Add Category */}
@@ -33,7 +36,7 @@ export default function ExpenseAction() {
           triggerText="Add Category"
           triggerIcon={<FolderPlus className="h-4 w-4" />}
         >
-          <AddEditCategoryForm />
+          <AddEditCategoryForm onClose={handleCloseSheet} />
         </BottomSheet>
       </div>
     </div>

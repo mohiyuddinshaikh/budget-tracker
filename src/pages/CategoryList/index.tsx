@@ -3,16 +3,16 @@ import CommonTable from "@/components/ui/Table/index";
 import BottomSheet from "@/components/ui/BottomSheet";
 import { Button } from "@/components/ui/button";
 import AddEditCategoryForm from "@/pages/Home/ExpenseAction/AddEditCategoryForm";
-import { categories } from "@/constants/data";
 import type { Category } from "@/types/category";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import useCategoryStore from "@/store/categoryStore";
 
 export default function CategoriesList() {
   const [isCategorySheetOpen, setIsCategorySheetOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState<Category | null>(null);
   const [open, setOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState<Category | null>(null);
-
+  const { categories, deleteCategory } = useCategoryStore();
   const columns = [
     { key: "category_id", label: "ID" },
     { key: "name", label: "Name" },
@@ -25,12 +25,16 @@ export default function CategoriesList() {
   };
 
   const handleDelete = (row: Category) => {
-    console.log("Delete category:", row);
     setSelectedRow(row);
     setOpen(true);
   };
   const confirmEdit = () => {
-    console.log("Edit Confirmed:", selectedRow);
+    console.log("selectedRoe", selectedRow);
+    if (selectedRow?.category_id) {
+      deleteCategory(selectedRow.category_id);
+    } else {
+      console.log("err");
+    }
   };
 
   const handleCloseSheet = () => {

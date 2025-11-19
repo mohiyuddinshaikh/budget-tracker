@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import type { Category } from "@/types/category";
+import useCategoryStore from "@/store/categoryStore";
 
 interface AddEditCategoryFormProps {
   initialData?: Category | null;
@@ -16,18 +17,27 @@ export default function AddEditCategoryForm({
 }: AddEditCategoryFormProps) {
   const [categoryName, setCategoryName] = useState("");
   const navigate = useNavigate();
-  console.log(" foos", initialData);
+  const { updateCategory, addCategory } = useCategoryStore();
 
   useEffect(() => {
     if (initialData) {
-      console.log("initial 1", initialData);
-      setCategoryName(initialData.name || "");
+      setCategoryName(initialData.name);
     }
   }, [initialData]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("categoryName", categoryName);
+
+    if (initialData) {
+      updateCategory(initialData.category_id, { name: categoryName });
+    } else {
+      addCategory({
+        name: categoryName,
+        color: "bg-gray-500",
+        amount: 0,
+      });
+    }
+
     onClose();
   };
 
