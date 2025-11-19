@@ -1,12 +1,12 @@
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import type { ChartData, ChartOptions } from "chart.js";
-import { expenses } from "@/constants/data";
 import CommonTable from "@/components/ui/Table/index";
 import useCategoryStore from "@/store/categoryStore";
 
 // Using Chart.js's built-in TooltipItem type for better type safety
 import type { TooltipItem } from "chart.js";
+import { useExpenseStore } from "@/store/expenseStore";
 
 type TooltipContext = TooltipItem<"pie">;
 
@@ -15,6 +15,9 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function ExpenseChart() {
   const { categories } = useCategoryStore();
+  console.log('categories', categories)
+  const { expenses } = useExpenseStore();
+  console.log('expenses', expenses)
   const categoryTotals = expenses.reduce<Record<string, number>>(
     (acc, expense) => {
       acc[expense.category] = (acc[expense.category] || 0) + expense.amount;

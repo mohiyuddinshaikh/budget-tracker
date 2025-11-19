@@ -14,16 +14,11 @@ import {
 } from "@/components/ui/select";
 import useCategoryStore from "@/store/categoryStore";
 
+import { useExpenseStore } from "@/store/expenseStore";
+import type { Expense } from "@/types/expense";
 
 interface AddEditExpenseFormProps {
-  initialData?: {
-    id?: number;
-    category_id?: string;
-    category: string;
-    amount: string | number;
-    date: string;
-    note: string;
-  } | null;
+  initialData?: Expense | null;
   onClose: () => void;
 }
 
@@ -31,10 +26,12 @@ export default function AddEditExpenseForm({
   initialData,
   onClose,
 }: AddEditExpenseFormProps) {
-  const {categories} = useCategoryStore();
-  console.log("initialData exp foo", initialData);
+  const { addExpense, updateExpense } = useExpenseStore();
+
+  const { categories } = useCategoryStore();
   const [formData, setFormData] = useState({
-    category: initialData?.category_id || "",
+    category_id: initialData?.category_id || "",
+    category: initialData?.category || "",
     amount: initialData?.amount.toString() || "",
     date: initialData?.date || "",
     note: initialData?.note || "",
@@ -47,13 +44,30 @@ export default function AddEditExpenseForm({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSelectChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, category: value }));
+  const handleCategoryChange = (category_id: string) => {
+    const selected = categories?.find((c) => c?.category_id === category_id);
+
+    if (selected) {
+      setFormData((prev) => ({
+        ...prev,
+        category_id: selected?.category_id,
+        category: selected?.name,
+      }));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    const payload = {
+      ...formData,
+      amount: Number(formData.amount),
+    };
+
+    if (initialData) {
+      updateExpense(initialData?.id, payload);
+    } else {
+      addExpense(payload);
+    }
     onClose();
   };
 
@@ -61,17 +75,18 @@ export default function AddEditExpenseForm({
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="category">Category</Label>
-        <Select onValueChange={handleSelectChange} value={formData.category}>
+        <Select
+          onValueChange={handleCategoryChange}
+          value={formData?.category_id}
+        >
           <SelectTrigger>
-            <SelectValue placeholder="Select a category" />
+            <SelectValue placeholder="Select Category" />
           </SelectTrigger>
+
           <SelectContent>
-            {categories?.map((category) => (
-              <SelectItem
-                key={category.category_id}
-                value={category.category_id}
-              >
-                {category.name}
+            {categories?.map((cat) => (
+              <SelectItem key={cat?.category_id} value={cat?.category_id}>
+                {cat?.name}
               </SelectItem>
             ))}
           </SelectContent>
