@@ -12,8 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import useCategoryStore from "@/store/categoryStore";
 
-import { categories } from "@/constants/data";
 
 interface AddEditExpenseFormProps {
   initialData?: {
@@ -31,6 +31,7 @@ export default function AddEditExpenseForm({
   initialData,
   onClose,
 }: AddEditExpenseFormProps) {
+  const {categories} = useCategoryStore();
   console.log("initialData exp foo", initialData);
   const [formData, setFormData] = useState({
     category: initialData?.category_id || "",
@@ -65,7 +66,7 @@ export default function AddEditExpenseForm({
             <SelectValue placeholder="Select a category" />
           </SelectTrigger>
           <SelectContent>
-            {categories.map((category) => (
+            {categories?.map((category) => (
               <SelectItem
                 key={category.category_id}
                 value={category.category_id}
