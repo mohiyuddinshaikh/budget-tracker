@@ -1,21 +1,20 @@
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { categories, expenses } from "@/constants/data";
+import type { ChartData, ChartOptions } from "chart.js";
+import { expenses } from "@/constants/data";
 import CommonTable from "@/components/ui/Table/index";
+import useCategoryStore from "@/store/categoryStore";
 
+// Using Chart.js's built-in TooltipItem type for better type safety
+import type { TooltipItem } from "chart.js";
 
-type TooltipContext = {
-  label: string;
-  raw: number;
-  dataset: {
-    data: number[];
-  };
-};
+type TooltipContext = TooltipItem<"pie">;
 
 // Register ChartJS components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function ExpenseChart() {
+  const { categories } = useCategoryStore();
   const categoryTotals = expenses.reduce<Record<string, number>>(
     (acc, expense) => {
       acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
@@ -25,7 +24,7 @@ export default function ExpenseChart() {
   );
 
   // Prepare data for the chart
-  const chartData = {
+  const chartData: ChartData<"pie"> = {
     labels: Object.keys(categoryTotals),
     datasets: [
       {
@@ -52,7 +51,7 @@ export default function ExpenseChart() {
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"pie"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -70,10 +69,12 @@ export default function ExpenseChart() {
         callbacks: {
           label: function (context: TooltipContext) {
             const label = context.label || "";
-            const value = context.raw || 0;
-            const total = context.dataset.data.reduce((a, b) => a + b, 0);
-            const percentage = Math.round((value / total) * 100);
-            return `${label}: ${percentage} %`;
+            const value = context.raw as number;
+            const data = context.dataset.data as number[];
+            const total = data.reduce((a, b) => a + b, 0);
+            const percentage =
+              total > 0 ? Math.round((value / total) * 100) : 0;
+            return `${label}: ${percentage}%`;
           },
         },
       },
@@ -84,7 +85,7 @@ export default function ExpenseChart() {
   };
 
   const columns = [
-    { key: "id", label: "ID" },
+    { key: "category_id", label: "ID" },
     { key: "name", label: "Name" },
     { key: "amount", label: "Amount" },
   ] as const;
@@ -100,11 +101,7 @@ export default function ExpenseChart() {
       <h2 className="text-lg font-semibold hidden mb-3 md:block mt-3">
         Category List
       </h2>
-      <CommonTable
-        data={categories}
-        columns={columns}
-        isAction = {false}
-      />
+      <CommonTable data={categories} columns={columns} isAction={false} />
     </div>
   );
 }
