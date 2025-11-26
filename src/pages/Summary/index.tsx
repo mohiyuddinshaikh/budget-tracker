@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { OPENAI_API_KEY } from "@/constants/data";
 import useCategoryStore from "@/store/categoryStore";
 
 export default function ExpenseSummary() {
@@ -21,7 +20,7 @@ const getSummary = async () => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${OPENAI_API_KEY}`,
+      "Authorization": `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
     },
      body: JSON.stringify({
         model: "llama-3.1-8b-instant",
