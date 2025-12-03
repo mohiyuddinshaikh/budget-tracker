@@ -7,6 +7,7 @@ import useCategoryStore from "@/store/categoryStore";
 // Using Chart.js's built-in TooltipItem type for better type safety
 import type { TooltipItem } from "chart.js";
 import { useExpenseStore } from "@/store/expenseStore";
+import { useEffect } from "react";
 
 type TooltipContext = TooltipItem<"pie">;
 
@@ -15,9 +16,22 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function ExpenseChart() {
   const { categories } = useCategoryStore();
-  console.log('categories', categories)
   const { expenses } = useExpenseStore();
-  console.log('expenses', expenses)
+
+
+  useEffect(() => {
+   categoryFilterData
+  }, [])
+  
+
+  const categoryFilterData =  categories?.map((item) =>{
+    const totalAmount = expenses?.filter((exp) => exp?.category_id  === item?.category_id ).reduce((total, exp) => total + exp?.amount ,0)
+     return {
+    ...item,
+    amount: totalAmount
+  };
+    })
+
   const categoryTotals = expenses.reduce<Record<string, number>>(
     (acc, expense) => {
       acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
@@ -25,7 +39,6 @@ export default function ExpenseChart() {
     },
     {}
   );
-
   // Prepare data for the chart
   const chartData: ChartData<"pie"> = {
     labels: Object.keys(categoryTotals),
@@ -104,7 +117,7 @@ export default function ExpenseChart() {
       <h2 className="text-lg font-semibold hidden mb-3 md:block mt-3">
         Category List
       </h2>
-      <CommonTable data={categories} columns={columns} isAction={false} />
+      <CommonTable data={categoryFilterData} columns={columns} isAction={false} />
     </div>
   );
 }
