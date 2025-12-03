@@ -49,7 +49,10 @@ export default function ExpenseList() {
   };
 
   const confirmEdit = () => {
-    deleteExpense(selectedRow?.id)
+    console.log("Edit Confirmed:", selectedRow);
+    if(selectedRow){
+      deleteExpense(selectedRow?.id)
+    }
   };
 
   return (
