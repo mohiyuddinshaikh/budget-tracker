@@ -3,8 +3,10 @@ import CommonTable from "@/components/ui/Table/index";
 import BottomSheet from "@/components/ui/BottomSheet";
 import AddEditExpenseForm from "../ExpenseAction/AddEditExpenseForm";
 import type { Expense } from "@/types/expense";
-import { expenses } from "@/constants/data";
+// import { expenses } from "@/constants/data";
 import ConfirmDialog from "@/components/ConfirmDialog";
+import { useExpenseStore } from "@/store/expenseStore";
+import { useMonthStore } from "@/store/monthStore";
 
 export default function ExpenseList() {
   const [isExpenseSheetOpen, setIsExpenseSheetOpen] = useState(false);
@@ -12,9 +14,19 @@ export default function ExpenseList() {
   const [open, setOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState<Expense | null>(null);
 
+  const {expenses, deleteExpense}  = useExpenseStore();
+
+    const { selectedMonth} = useMonthStore();
+
+    const filteredExpenses = expenses.filter((exp) => {
+    const expMonth = new Date(exp.date).getMonth();
+    return expMonth === selectedMonth;
+  });
+
   const columns = [
-    { key: "category", label: "Category" },
     { key: "id", label: "ID" },
+    { key: "category", label: "Category" },
+    { key: "category_id", label: "Category Id" },
     { key: "amount", label: "Amount (₹)", align: "right" },
     { key: "date", label: "Date" },
     { key: "note", label: "Note" },
@@ -28,7 +40,7 @@ export default function ExpenseList() {
   const handleDelete = (row: Expense) => {
     setSelectedRow(row);
     setOpen(true);
-    console.log("Delete row:", row);
+
   };
 
   const handleCloseSheet = () => {
@@ -38,6 +50,9 @@ export default function ExpenseList() {
 
   const confirmEdit = () => {
     console.log("Edit Confirmed:", selectedRow);
+    if(selectedRow){
+      deleteExpense(selectedRow?.id)
+    }
   };
 
   return (
@@ -47,7 +62,7 @@ export default function ExpenseList() {
       </div>
 
       <CommonTable
-        data={expenses}
+        data={filteredExpenses}
         columns={columns}
         onEdit={handleEdit}
         onDelete={handleDelete}
@@ -77,7 +92,7 @@ export default function ExpenseList() {
         open={open}
         title="Delete Expense?"
         description="Are you sure you want to delete this record?"
-        confirmText="Yes, Edit"
+        confirmText="Delete"
         cancelText="No"
         onConfirm={confirmEdit}
         onOpenChange={setOpen}

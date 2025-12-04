@@ -1,20 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
 import { months } from "@/constants/data";
+import { useMonthStore } from "@/store/monthStore";
 
 export default function MonthNavigator() {
-  const currentMonthIndex = new Date().getMonth();
-  console.log("currentMonthIndex", currentMonthIndex);
-  const [monthIndex, setMonthIndex] = useState(currentMonthIndex);
-  console.log("monthIndex foo ", monthIndex);
+
+  const { selectedMonth, setSelectedMonth } = useMonthStore();
 
   const handlePrev = () => {
-    setMonthIndex((prev) => (prev === 0 ? 11 : prev - 1));
+    setSelectedMonth(selectedMonth === 0 ? 11 : selectedMonth - 1);
   };
 
   const handleNext = () => {
-    setMonthIndex((prev) => (prev === 11 ? 0 : prev + 1));
+    setSelectedMonth(selectedMonth === 11 ? 0 : selectedMonth + 1);
   };
 
   return (
@@ -24,7 +22,7 @@ export default function MonthNavigator() {
       </Button>
 
       <span className="min-w-[100px] md:min-w-[300px] text-center font-medium bg-blue-100 rounded py-1">
-        {months[monthIndex]}
+        {months[selectedMonth]}
       </span>
 
       <Button variant="outline" size="icon" onClick={handleNext}>
