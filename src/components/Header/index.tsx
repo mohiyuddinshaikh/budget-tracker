@@ -17,6 +17,11 @@ export default function Header() {
     setUser(currentUser);
   }, [getCurrentUser]);
 
+   const handleClickOnLogo = () => {
+    navigate("/home");
+    window.location.reload()
+  }; 
+
   return (
     <header className="fixed top-0 left-0 right-0 flex items-center justify-between px-6 py-3 bg-background border-b shadow-sm w-full z-50">
       <div className="text-xl font-bold tracking-tight cursor-pointer">
@@ -25,7 +30,7 @@ export default function Header() {
           alt=""
           height="46px"
           width="189px"
-          onClick={() => navigate("/home")}
+          onClick={handleClickOnLogo}
         />
       </div>
       <div className="flex items-center gap-4">

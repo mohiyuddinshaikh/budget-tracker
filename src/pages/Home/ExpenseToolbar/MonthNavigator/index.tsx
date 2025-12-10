@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, RefreshCcw } from "lucide-react";
 import { months } from "@/constants/data";
 import { useMonthStore } from "@/store/monthStore";
 
@@ -15,6 +15,11 @@ export default function MonthNavigator() {
     setSelectedMonth(selectedMonth === 11 ? 0 : selectedMonth + 1);
   };
 
+    const handleResetToCurrentMonth = () => {
+    const current = new Date().getMonth();
+    setSelectedMonth(current);
+  };
+  
   return (
     <div className="flex items-center gap-1 md:gap-2">
       <Button variant="outline" size="icon" onClick={handlePrev}>
@@ -27,6 +32,9 @@ export default function MonthNavigator() {
 
       <Button variant="outline" size="icon" onClick={handleNext}>
         <ChevronRight className="h-4 w-4" />
+      </Button>
+        <Button variant="outline" size="icon" onClick={handleResetToCurrentMonth}>
+        <RefreshCcw className="h-4 w-4" />
       </Button>
     </div>
   );
